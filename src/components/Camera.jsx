@@ -1,5 +1,7 @@
 import React from "react";
+import { useRef, useState, useCallback} from "react";
 import Webcam from "react-webcam";
+import '../App.css'
 
 function Camera() {
   const videoConstraints = {
@@ -8,10 +10,15 @@ function Camera() {
     facingMode: "user",
   };
 
-  const webcamRef = React.useRef(null);
-  const capture = React.useCallback(() => {
-    const imageSrc = webcamRef.current.getScreenshot();
-  }, [webcamRef]);
+  const webcamRef = useRef(null);
+  const [imgSrc, setImgSrc] = useState(null);
+
+  const capture = useCallback(() => {
+    const imageSrc = webcamRef.current.getScreenshot({width: 500, height: 300});
+    setImgSrc(imageSrc);
+  }, [webcamRef, setImgSrc]);
+
+  
 
   return (
     <div
@@ -20,12 +27,18 @@ function Camera() {
       <Webcam
         audio={false}
         width={780}
-        height={700}
+        height={480}
         screenshotFormat="image/jpeg"
+        mirrored
         ref={webcamRef}
         videoConstraints={videoConstraints}
       ></Webcam>
-      <button onClick={capture}>Capture photo</button>
+      <button style={{marginBottom: "20px"}} className="btn" onClick={capture}>Capture</button>
+      {imgSrc && (
+        <img
+          src={imgSrc}
+        />
+      )}
     </div>
   );
 }
