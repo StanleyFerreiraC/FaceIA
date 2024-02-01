@@ -1,12 +1,14 @@
 import React from "react";
-import Camera from "../components/Camera";
+
+import FaceApi from "../components/FaceApi";
 
 function Home() {
+
 
   
   return (
     <div>
-      <Camera/>
+      <FaceApi/>
     </div>
   );
 }
